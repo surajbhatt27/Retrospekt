@@ -12,4 +12,4 @@ const connectDb = async () => {
     }
 }
 
-export default connectDb;jmu,hyfff
+export default connectDb;

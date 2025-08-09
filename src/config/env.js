@@ -5,6 +5,7 @@ dotenv.config();
 export const config = {
     mongoUri: process.env.MONGODB_URI,
     port: process.env.PORT || 8000,
+    corsOrigin: process.env.CORS_ORIGIN,
 }
 
 if(!config.mongoUri) {

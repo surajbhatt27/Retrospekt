@@ -3,6 +3,14 @@ import bcrypt from "bcrypt";
 import {config} from "../config/env.js";
 
 const userSchema = new mongoose.Schema({
+    username: {
+            type: String,
+            required: true,
+            unique: true,
+            lowerCase: true,
+            trim: true,
+            index: true,
+    },
     email: {
         type: String,
         required: true,

@@ -2,7 +2,7 @@ import asyncHandler from "express-async-handler";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from "../models/user.model.js"; //
-import { config } from "dotenv";
+import { config } from "../config/env.js";
 
 const generateAccessAndRefreshToken = async (userId) => {
     try {
@@ -12,7 +12,7 @@ const generateAccessAndRefreshToken = async (userId) => {
 
         user.refreshToken = refreshToken
         await user.save({validateBeforeSave: false});
-        return {accessToken, refreshToken};
+        return { accessToken, refreshToken };
     } catch (error) {
         throw new ApiError(500, "Error while generating access and refresh Token");
     }
@@ -172,7 +172,7 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
     }
 
     user.password = newPassword;
-    user.save({ validateBeforeSave: false });
+    await user.save({ validateBeforeSave: false });
 
     return res
         .status(200)

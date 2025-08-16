@@ -1,13 +1,14 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import {config} from "../config/env.js";
+import jwt from "jsonwebtoken";
 
 const userSchema = new mongoose.Schema({
     username: {
             type: String,
             required: true,
             unique: true,
-            lowerCase: true,
+            lowercase: true,
             trim: true,
             index: true,
     },
@@ -30,6 +31,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ["admin", "member"],
         default: "member"
+    },
+    refreshToken: {
+        type: String
     }
 }, { timestamps: true });
 

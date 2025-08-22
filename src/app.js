@@ -16,6 +16,14 @@ app.use(cookieParser())
 
 import userRoutes from "./routes/user.routes.js";
 
+// Welcome route for base url.
+app.get("/", (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: "🧀 Welcome to Retrospekt API 🐄✨.",
+    });
+});
+
 app.use("/api/v1/users", userRoutes);
 
 export {app};

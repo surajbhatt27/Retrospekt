@@ -26,4 +26,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/v1/users", userRoutes);
 
+app.use(notFound);
+app.use(errorHandler);
+
 export {app};

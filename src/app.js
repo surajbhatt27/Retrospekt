@@ -20,7 +20,7 @@ import userRoutes from "./routes/user.routes.js";
 app.get("/", (req, res) => {
     res.status(200).json({
         success: true,
-        message: "🧀 Welcome to Retrospekt API 🐄✨.",
+        message: "🧀 Welcome to Retrospekt API ✨.",
     });
 });
 

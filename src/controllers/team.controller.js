@@ -21,5 +21,17 @@ const createTeam = asyncHandler(async (req, res) => {
         .json(new ApiResponse(201, team, "Team created successfully"));
 });
 
+// Get all teams of logged-in user
+const getMyTeams = asyncHandler(async (req, res) => {
+    const teams = await Team.find({ members: req.user._id })
+        .populate("owner", "username email")
+        .populate("members", "username email");
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, teams, "Fetched user teams successfully"));
+});
+
 export { createTeam,
+        getMyTeams
 };

@@ -32,6 +32,33 @@ const getMyTeams = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, teams, "Fetched user teams successfully"));
 });
 
+// Add a member to team
+const addMember = asyncHandler(async (req, res) => {
+    const { teamId, userId } = req.body;
+
+    if (!teamId || !userId) throw new ApiError(400, "Team ID and User ID required");
+
+    const team = await Team.findById(teamId);
+    if (!team) throw new ApiError(404, "Team not found");
+
+    // Only owner can add members
+    if (team.owner.toString() !== req.user._id.toString()) {
+        throw new ApiError(403, "Only the team owner can add members");
+    }
+
+    if (team.members.includes(userId)) {
+        throw new ApiError(400, "User already in team");
+    }
+
+    team.members.push(userId);
+    await team.save();
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, team, "Member added successfully"));
+});
+
 export { createTeam,
-        getMyTeams
+        getMyTeams,
+        addMember
 };

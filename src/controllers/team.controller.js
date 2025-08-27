@@ -58,7 +58,33 @@ const addMember = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, team, "Member added successfully"));
 });
 
+// Remove a member
+const removeMember = asyncHandler(async (req, res) => {
+    const { teamId, userId } = req.body;
+
+    if (!teamId || !userId) throw new ApiError(400, "Team ID and User ID required");
+
+    const team = await Team.findById(teamId);
+    if (!team) throw new ApiError(404, "Team not found");
+
+    // Only owner can remove
+    if (team.owner.toString() !== req.user._id.toString()) {
+        throw new ApiError(403, "Only the team owner can remove members");
+    }
+
+    team.members = team.members.filter(
+        (member) => member.toString() !== userId.toString()
+    );
+
+    await team.save();
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, team, "Member removed successfully"));
+});
+
 export { createTeam,
         getMyTeams,
-        addMember
+        addMember,
+        removeMember
 };

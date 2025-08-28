@@ -83,8 +83,27 @@ const removeMember = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, team, "Member removed successfully"));
 });
 
+// Delete a team
+const deleteTeam = asyncHandler(async (req, res) => {
+    const { teamId } = req.params;
+
+    const team = await Team.findById(teamId);
+    if (!team) throw new ApiError(404, "Team not found");
+
+    if (team.owner.toString() !== req.user._id.toString()) {
+        throw new ApiError(403, "Only the team owner can delete the team");
+    }
+
+    await team.deleteOne();
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, {}, "Team deleted successfully"));
+});
+
 export { createTeam,
         getMyTeams,
         addMember,
-        removeMember
+        removeMember,
+        deleteTeam
 };

@@ -15,6 +15,7 @@ app.use(express.urlencoded({extended: true, limit: "16kb"}))
 app.use(cookieParser())
 
 import userRoutes from "./routes/user.routes.js";
+import teamRoutes from "./routes/team.routes.js";
 
 // Welcome route for base url.
 app.get("/", (req, res) => {
@@ -25,6 +26,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/teams", teamRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

@@ -32,4 +32,17 @@ export const createSession = asyncHandler(async (req, res) => {
         .json(new ApiResponse(201, session, "Session created successfully"));
 });
 
-export {createSession}
+// Get all sessions for a team
+export const getSessions = asyncHandler(async (req, res) => {
+    const { teamId } = req.params;
+
+    const sessions = await Session.find({ team: teamId }).sort({ createdAt: -1 });
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, sessions, "Sessions fetched successfully"));
+});
+
+export {createSession,
+        getSessions
+}
